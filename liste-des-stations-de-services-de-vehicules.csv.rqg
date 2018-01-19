@@ -1,0 +1,20 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX fn: <http://w3id.org/sparql-generate/fn/> 
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX osc:<http://opensensingcity.emse.fr/city/paris/car_sharing_station/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mbv:<http://schema.mobivoc.org/#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+GENERATE {
+  ?stationURI geo:lat ?lat;
+    	geo:long ?long; .
+} 
+SOURCE <http://example.org/document#0> as ?message
+ITERATOR iter:CSV(?message) AS ?station 
+WHERE {
+   BIND( fn:CSV(?station, "CODE_POST" ) AS ?id )
+   BIND (URI(CONCAT("http://opensensingcity.emse.fr/city/paris/car_sharing_station/",?id)) AS ?stationURI)
+   BIND( xsd:double(fn:CSV(?station, "lat" )) AS ?lat )
+  BIND( xsd:double(replace(fn:CSV(?station, "long" )," ","")) AS ?long )
+}

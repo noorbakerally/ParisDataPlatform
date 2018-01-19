@@ -1,0 +1,50 @@
+@prefix :     <http://opensensingcity.emse.fr/LDPDesignVocabulary/> .
+@prefix data:     <http://opensensingcity.emse.fr/LDPDesign/data/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#>
+@prefix osc:<http://opensensingcity.emse.fr/ontology/>
+
+data:parisData a :NullContainerMap;
+    :iriTemplate "paris";
+    :containerMap data:bicycleStationsCM;
+    :containerMap data:carSharingStationsCM;
+.
+
+data:bicycleStationsCM a :NullContainerMap;
+    :iriTemplate "BicycleStations";
+    :nonContainerMap data:bicycleStationNM;
+.
+
+data:carSharingStationsCM a :NullContainerMap;
+    :iriTemplate "CarSharingStations";
+    :nonContainerMap data:carSharingStationNM;
+.
+
+data:bicycleStationNM a :NonContainerMap;
+    :iriTemplate "$path(res,3)$";
+    :resourceMap data:bicycleStationRM;
+.
+
+data:carSharingStationNM a :NonContainerMap;
+    :iriTemplate "$path(res,3)$";
+    :resourceMap data:carSharingStationRM;
+.
+
+data:bicycleStationRM a :ResourceMap;
+    :resourceQuery "{ ?res a osc:BicycleStation .}";
+    :graphQuery "CONSTRUCT { ?res ?p ?o . } WHERE {  ?res ?p ?o . }";
+    :dataSource data:DataSource1 .
+
+data:carSharingStationRM a :ResourceMap;
+    :resourceQuery "{ ?res a osc:CarSharingFacility .}";
+    :graphQuery "CONSTRUCT { ?res ?p ?o . } WHERE {  ?res ?p ?o . }";
+    :dataSource data:DataSource2 .
+
+data:DataSource1 a :RDFSource;
+    :location "https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin";
+    :liftingRule "";
+.
+
+data:DataSource2 a :RDFSource;
+    :location "https://opendata.paris.fr/explore/dataset/liste-des-stations-de-services-de-vehicules/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true";
+    :liftingRule "";
+.

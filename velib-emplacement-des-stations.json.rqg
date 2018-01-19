@@ -1,0 +1,26 @@
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX fn: <http://w3id.org/sparql-generate/fn/> 
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX osc:<http://opensensingcity.emse.fr/city/paris/station/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mbv:<http://schema.mobivoc.org/#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+GENERATE {
+  ?stationURI rdfs:label ?name;
+        mbv:totalCapacity ?capacity;
+        geo:lat ?lat;
+        geo:long ?long;
+        
+    .
+} 
+SOURCE <http://example.org/document#0> as ?message
+ITERATOR iter:JSONPath(?message,"$.features.*") AS ?station
+WHERE {
+    BIND( fn:JSONPath(?station, "$.properties.station_id" ) AS ?id )
+    BIND( fn:JSONPath(?station, "$.properties.name" ) AS ?name )
+    BIND (URI(CONCAT("http://opensensingcity.emse.fr/city/paris/station/",str(?id))) AS ?stationURI)
+    BIND( xsd:integer(fn:JSONPath(?station, "$.properties.capacity" )) AS ?capacity )  
+    BIND( xsd:double(fn:JSONPath(?station, "$.properties.lat" )) AS ?lat )
+    BIND( xsd:double(fn:JSONPath(?station, "$.properties.lon" )) AS ?long )
+}
