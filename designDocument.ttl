@@ -41,10 +41,10 @@ data:carSharingStationRM a :ResourceMap;
 
 data:DataSource1 a :RDFSource;
     :location "https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/download/?format=geojson&timezone=Europe/Berlin";
-    :liftingRule "";
+    :liftingRule "https://raw.githubusercontent.com/noorbakerally/ParisDataPlatform/master/velib-emplacement-des-stations.json.rqg";
 .
 
 data:DataSource2 a :RDFSource;
     :location "https://opendata.paris.fr/explore/dataset/liste-des-stations-de-services-de-vehicules/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true";
-    :liftingRule "";
+    :liftingRule "https://raw.githubusercontent.com/noorbakerally/ParisDataPlatform/master/liste-des-stations-de-services-de-vehicules.csv.rqg";
 .
